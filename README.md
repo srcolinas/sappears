@@ -44,3 +44,5 @@ Please feel free to add issues and make PRs!
 ### TODO
 
 - Specify searches by type (function, class, module, docstring).
+- Customize output (e.g. ignore location)
+- Add tests
