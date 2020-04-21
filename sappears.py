@@ -1,8 +1,10 @@
 import inspect
+import importlib
 import os
 import sys
 from collections import namedtuple
 
+import fire
 from prettytable import PrettyTable
 
 
@@ -29,7 +31,7 @@ def list_all_modules(root):
     This function scans the whole hierarchical structure of the provided root.
 
     Args:
-        root (str): The module for which you want a list of submodules.
+        root (module): The module for which you want a list of submodules.
 
     Returns:
         list: submodules of root.
@@ -58,7 +60,7 @@ def list_modules(root):
     imported by the provided root. See `list_all_modules`.
 
     Args:
-        root (str): The module for which you want a list of submodules.
+        root (module): The module for which you want a list of submodules.
 
     Returns:
         list: submodules of root.
@@ -76,16 +78,16 @@ def search_in_module(string, package):
         package : module
             Package in which to search for the given query.
     Returns:
-    list : a series of InspectionResult objects.
+        list : a series of InspectionResult objects.
 
     """
     results = []
     for module in list_all_modules(package):
-        _append_search_result(results, module, module)
+        _append_search_result(results, string, module, module)
     return results
 
 
-def _append_search_result(results, obj, module):
+def _append_search_result(results, string, obj, module):
     try:
         sourcecode = inspect.getsource(obj)
     except OSError:
@@ -96,11 +98,18 @@ def _append_search_result(results, obj, module):
     )
 
 
-if __name__ == "__main__":
-    import importlib
+def _main(string, package):
+    """Search string in package.
 
-    string = "import tensorflow as tf"
-    package = "avi"
+    Args:
+        string (str): string of interest.
+        package (module): module or package for which to search for string occurences.
+
+    """
     package = importlib.import_module(package)
     results = search_in_module(string, package)
     make_report(results)
+
+
+if __name__ == "__main__":
+    fire.Fire(_main)
