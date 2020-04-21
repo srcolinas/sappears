@@ -40,3 +40,7 @@ where name of interest is the name of the variable, function, method, class or m
 ## Contribute
 
 Please feel free to add issues and make PRs!
+
+### TODO
+
+- Specify searches by type (function, class, module, docstring).

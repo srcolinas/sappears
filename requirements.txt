@@ -1,2 +1,2 @@
-prettytable==0.7
+prettytable~=0.7
 fire

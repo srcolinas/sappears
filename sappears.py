@@ -94,8 +94,16 @@ def _append_search_result(results, string, obj, module):
         sourcecode = ""
     ocurrences = sourcecode.count(string)
     results.append(
-        _SearchResult(obj.__name__, type(module), module.__file__, ocurrences)
+        _SearchResult(
+            obj.__name__, type(module), _get_module_relative_path(module), ocurrences
+        )
     )
+
+
+def _get_module_relative_path(module):
+    main_package_name = module.__package__.split(".")[0]
+    index_in_file = module.__file__.find(main_package_name)
+    return module.__file__[index_in_file:]
 
 
 def _main(string, package):
